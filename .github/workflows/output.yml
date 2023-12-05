@@ -1,8 +1,19 @@
-name: Output information
-on: workflow_dispatch
+name: Output Event Detail on Issues
+
+on:
+    issues:
+      types: [opened, assigned, edited, milestoned]
+    workflow_dispatch:  
+
 jobs:
-  Info:
+  build:
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Output GitHub context
-        run: echo "${{ toJSON(github) }}"
+        - name: Get code
+          uses: actions/checkout@v4
+        - name: Print GitHub event details
+          run: |
+            echo "GitHub Event Name: ${{ toJSON(github.event_name) }}"
+            echo "GitHub Event Path: ${{ toJSON(github.event_path) }}"
+            echo "GitHub Workspace: ${{ toJSON(github.workspace) }}"
